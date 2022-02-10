@@ -120,25 +120,25 @@
                     <article class="panel">
                         <div class="tabs is-boxed">
                             <ul>
-                                <li class="is-active">
+                                <li class="current">
                                     <a>
                                         <span class="icon is-small"><i class="fas fa-clipboard-list"></i></span>
                                         <span>Current</span>
                                     </a>
                                 </li>
-                                <li>
+                                <li class="completed">
                                     <a>
                                         <span class="icon is-small"><i class="fas fa-calendar-times"></i></span>
                                         <span>Completed</span>
                                     </a>
                                 </li>
-                                <li>
+                                <li class="upcoming">
                                     <a>
                                         <span class="icon is-small"><i class="fas fa-calendar-day"></i></span>
                                         <span>Upcoming</span>
                                     </a>
                                 </li>
-                                <li>
+                                <li class="is-active all">
                                     <a>
                                         <span class="icon is-small"><i class="fas fa-calendar"></i></span>
                                         <span>All</span>
@@ -155,7 +155,7 @@
                             </p>
                         </div>
                         <a class="panel-block">
-                            <input type="checkbox" checked />
+                            <input type="checkbox" />
                             Make Bulma great again
                         </a>
                         <a class="panel-block">
@@ -170,10 +170,13 @@
                             <input type="checkbox" />
                             Learn how to use github
                         </a>
-                        <a class="panel-block">
-                            <input type="checkbox" />
-                            add a .gitignore file
-                        </a>
+                        <s>
+
+                            <a class="panel-block">
+                                <input type="checkbox" checked />
+                                add a .gitignore file
+                            </a>
+                        </s>
                     </article>
                 </div>
                 <div class="column is-3">
@@ -220,6 +223,35 @@
             </div>
         </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        $('.panel-block input').change(function () {
+            if ($(this).parent().parent().is('s')) {
+                $(this).parent().unwrap()
+            } else {
+                $(this).parent().wrap('<s></s>')
+            }
+        })
+
+        $('.tabs ul li').click(function () {
+            $('.tabs ul li').removeClass('is-active')
+            $(this).addClass('is-active')
+        })
+
+        $('.current').click(function () {
+            $('a.panel-block').css({ 'display': 'flex' })
+            $('s a.panel-block').css({ 'display': 'none' })
+        })
+        $('.all').click(function () {
+            $('a.panel-block').css({ 'display': 'flex' })
+        })
+        $('.completed').click(function () {
+            $('a.panel-block').css({ 'display': 'none' })
+            $('s a.panel-block').css({ 'display': 'flex' })
+        })
+    </script>
 
 </body>
 
