@@ -1,0 +1,13 @@
+{
+  "name": "advwebproj",
+  "version": "1.0.0",
+  "description": "**File Structure**",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AndrewMcDonald-Dev/AdvWebProj.git"
+  }
+}
