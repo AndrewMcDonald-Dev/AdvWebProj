@@ -37,3 +37,9 @@ export const list: User[] = [
         pic: "https://randomuser.me/portraits/women/2.jpg",
     },
 ];
+
+export const findUser = (id: number): User => {
+    const user = list.find((user) => user.id === id);
+    if (!user) throw new Error("failed to find user in findUser");
+    return user;
+};
