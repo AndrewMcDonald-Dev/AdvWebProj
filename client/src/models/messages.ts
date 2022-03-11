@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { convertDate } from "../utils/convertDate";
 import session from "./session";
 
 export type task = {
@@ -7,6 +8,7 @@ export type task = {
     assignedTo: number;
     createdBy: number;
     dueDate: number;
+    timeCreated: Date;
 };
 
 export const useMessages = defineStore("message", {
@@ -18,6 +20,7 @@ export const useMessages = defineStore("message", {
                 assignedTo: 1,
                 createdBy: 2,
                 dueDate: new Date().getTime() + 10000,
+                timeCreated: new Date(),
             },
             {
                 title: "Add some more features",
@@ -25,6 +28,7 @@ export const useMessages = defineStore("message", {
                 assignedTo: 1,
                 createdBy: 1,
                 dueDate: new Date().getTime() + 50000,
+                timeCreated: new Date(),
             },
             {
                 title: "Make a github account",
@@ -32,6 +36,7 @@ export const useMessages = defineStore("message", {
                 assignedTo: 2,
                 createdBy: 1,
                 dueDate: new Date().getTime() + 30000,
+                timeCreated: new Date(),
             },
             {
                 title: "Learn how to use github",
@@ -39,6 +44,7 @@ export const useMessages = defineStore("message", {
                 assignedTo: 3,
                 createdBy: 2,
                 dueDate: new Date().getTime() + 40000,
+                timeCreated: new Date(),
             },
             {
                 title: "add a .gitignore file",
@@ -46,11 +52,13 @@ export const useMessages = defineStore("message", {
                 assignedTo: 3,
                 createdBy: 3,
                 dueDate: new Date().getTime() + 20000,
+                timeCreated: new Date(),
             },
         ] as task[],
         currentTab: "All",
         newTask: "",
         toBeAssigned: 0,
+        newDueDate: "",
     }),
     actions: {
         displayedTasks() {
@@ -69,6 +77,14 @@ export const useMessages = defineStore("message", {
                     return this.tasks.sort(
                         (task1, task2) => task1.dueDate - task2.dueDate
                     );
+                case "Completed":
+                    return this.tasks.filter(({ isCompleted }) => isCompleted);
+                case "All":
+                    return this.tasks.sort(
+                        (task1, task2) =>
+                            task2.timeCreated.getTime() -
+                            task1.timeCreated.getTime()
+                    );
                 default:
                     return this.tasks;
             }
@@ -80,18 +96,18 @@ export const useMessages = defineStore("message", {
             if (!session.user)
                 throw new Error("Current user not stored in addTask().");
 
-            if (this.newTask && this.toBeAssigned) {
+            if (this.newTask && this.toBeAssigned && this.newDueDate) {
                 this.tasks.unshift({
                     title: this.newTask,
                     isCompleted: false,
                     assignedTo: this.toBeAssigned,
                     createdBy: session.user.id,
-                    // ! Decided to just make the due date exactly one day after the creation
-                    // ! of the task because cant implement interface for selecting date quite yet
-                    dueDate: new Date().getTime() + 86400000,
+                    dueDate: convertDate(this.newDueDate),
+                    timeCreated: new Date(),
                 });
                 this.newTask = "";
                 this.toBeAssigned = 0;
+                this.newDueDate = "";
             }
         },
         changeToBeAssigned(id: number) {

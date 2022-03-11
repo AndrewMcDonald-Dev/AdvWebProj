@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import { useMessages } from '../models/messages';
 import { list, findUser } from '../models/user';
+import Tasks from './Tasks.vue';
 
 </script>
 
@@ -36,9 +36,20 @@ import { list, findUser } from '../models/user';
             >
                 <a>
                     <span class="icon is-small">
-                        <i class="fas fa-calendar-day"></i>
+                        <i class="fa-solid fa-calendar-days"></i>
                     </span>
                     <span>Upcoming</span>
+                </a>
+            </li>
+            <li
+                :class="{ 'is-active': useMessages().currentTab == 'Completed' }"
+                @click="useMessages().changeTab('Completed')"
+            >
+                <a>
+                    <span class="icon is-small">
+                        <i class="fa-solid fa-calendar-check"></i>
+                    </span>
+                    <span>Completed</span>
                 </a>
             </li>
             <li
@@ -57,7 +68,7 @@ import { list, findUser } from '../models/user';
     <div class="panel-block">
         <form @submit.prevent="useMessages().addTask" style="flex-grow: 1">
             <div class="columns">
-                <div class="field has-addons column is-8">
+                <div class="field has-addons column is-5">
                     <div class="control has-icons-left">
                         <input
                             class="input is-primary"
@@ -65,6 +76,7 @@ import { list, findUser } from '../models/user';
                             placeholder="New Task"
                             v-model="useMessages().newTask"
                             maxlength="35"
+                            required
                         />
                         <span class="icon is-left">
                             <i class="fas fa-calendar-plus" aria-hidden="true"></i>
@@ -74,7 +86,7 @@ import { list, findUser } from '../models/user';
                         <button class="button is-primary">Add</button>
                     </div>
                 </div>
-                <div class="column is-3">
+                <div class="column is-2">
                     <div class="dropdown is-hoverable">
                         <div class="dropdown-trigger">
                             <button
@@ -104,43 +116,45 @@ import { list, findUser } from '../models/user';
                         </div>
                     </div>
                 </div>
+                <div class="column is-3">
+                    <input
+                        type="date"
+                        class="date-picker"
+                        required
+                        v-model="useMessages().newDueDate"
+                    />
+                </div>
             </div>
+            <Tasks />
         </form>
     </div>
-    <a
-        class="panel-block"
-        v-for="task in useMessages().displayedTasks()"
-        :key="task.title"
-        :class="{ 'is-completed': useMessages().currentTab != 'Completed' && task.isCompleted }"
-    >
-        <input type="checkbox" v-model="task.isCompleted" />
-        <div class="task-text">{{ task.title }}</div>
-        <div class="right mini-avatar">
-            <figure class="image is-32x32">
-                <img :src="findUser(task.assignedTo).pic" class="img is-rounded" />
-            </figure>
-            <p>{{ findUser(task.assignedTo).firstName }}</p>
-        </div>
-    </a>
 </template>
 
 <style scoped lang="scss">
-.mini-avatar {
-    display: flex;
-    flex-direction: row;
-    margin-right: 0em;
-    padding-right: 1em;
-
-    figure,
-    p {
-        margin: 0.3em;
+.date-picker {
+    border-color: lightgrey;
+    font-family: "Helvetica", arial, sans-serif;
+    font-size: 18px;
+    border: 1px solid #ecf0f1;
+    background: #ecf0f1;
+    padding: 0.35em;
+    &::-webkit-clear-button {
+        display: none;
     }
 
-    p {
-        margin-top: 0.7em;
+    &::-webkit-inner-spin-button {
+        display: none;
     }
-}
-.task-text {
-    width: 20em;
+
+    &::-webkit-calendar-picker-indicator {
+        color: #2c3e50;
+    }
+
+    &,
+    focus {
+        color: #98a7a8;
+        box-shadow: none;
+        -webkit-box-shadow: none;
+    }
 }
 </style>
