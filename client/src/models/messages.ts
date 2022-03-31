@@ -61,34 +61,6 @@ export const useMessages = defineStore("message", {
         newDueDate: "",
     }),
     actions: {
-        displayedTasks() {
-            if (!session.user)
-                throw new Error("No user detected in displayedTasks()");
-            switch (this.currentTab) {
-                case "Created":
-                    return this.tasks.filter(
-                        ({ createdBy }) => createdBy === session.user?.id
-                    );
-                case "Assigned":
-                    return this.tasks.filter(
-                        ({ assignedTo }) => assignedTo === session.user?.id
-                    );
-                case "Upcoming":
-                    return this.tasks.sort(
-                        (task1, task2) => task1.dueDate - task2.dueDate
-                    );
-                case "Completed":
-                    return this.tasks.filter(({ isCompleted }) => isCompleted);
-                case "All":
-                    return this.tasks.sort(
-                        (task1, task2) =>
-                            task2.timeCreated.getTime() -
-                            task1.timeCreated.getTime()
-                    );
-                default:
-                    return this.tasks;
-            }
-        },
         changeTab(tab: string) {
             this.currentTab = tab;
         },
@@ -112,6 +84,36 @@ export const useMessages = defineStore("message", {
         },
         changeToBeAssigned(id: number) {
             this.toBeAssigned = id;
+        },
+    },
+    getters: {
+        displayedTasks: ({ tasks, currentTab }): task[] => {
+            if (!session.user)
+                throw new Error("No user detected in displayedTasks()");
+            switch (currentTab) {
+                case "Created":
+                    return tasks.filter(
+                        ({ createdBy }) => createdBy === session.user?.id
+                    );
+                case "Assigned":
+                    return tasks.filter(
+                        ({ assignedTo }) => assignedTo === session.user?.id
+                    );
+                case "Upcoming":
+                    return tasks.sort(
+                        (task1, task2) => task1.dueDate - task2.dueDate
+                    );
+                case "Completed":
+                    return tasks.filter(({ isCompleted }) => isCompleted);
+                case "All":
+                    return tasks.sort(
+                        (task1, task2) =>
+                            task2.timeCreated.getTime() -
+                            task1.timeCreated.getTime()
+                    );
+                default:
+                    return tasks;
+            }
         },
     },
 });

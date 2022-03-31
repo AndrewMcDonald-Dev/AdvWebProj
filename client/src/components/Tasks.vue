@@ -2,14 +2,16 @@
 import { useMessages } from '../models/messages';
 import { findUser } from '../models/user';
 import { retrieveDate } from '../utils/retrieveDate';
+
+const messages = useMessages()
 </script>
 
 <template>
     <a
         class="panel-block"
-        v-for="task in useMessages().displayedTasks()"
+        v-for="task in messages.displayedTasks"
         :key="task.title"
-        :class="{ 'is-completed': useMessages().currentTab != 'Completed' && task.isCompleted }"
+        :class="{ 'is-completed': messages.currentTab != 'Completed' && task.isCompleted }"
     >
         <input type="checkbox" v-model="task.isCompleted" />
         <div class="task-text">{{ task.title }}</div>

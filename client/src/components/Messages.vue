@@ -3,14 +3,15 @@ import { useMessages } from '../models/messages';
 import { list, findUser } from '../models/user';
 import Tasks from './Tasks.vue';
 
+const messages = useMessages()
 </script>
 
 <template>
     <div class="tabs is-boxed">
         <ul>
             <li
-                :class="{ 'is-active': useMessages().currentTab == 'Created' }"
-                @click="useMessages().changeTab('Created')"
+                :class="{ 'is-active': messages.currentTab == 'Created' }"
+                @click="messages.changeTab('Created')"
             >
                 <a>
                     <span class="icon is-small">
@@ -20,8 +21,8 @@ import Tasks from './Tasks.vue';
                 </a>
             </li>
             <li
-                :class="{ 'is-active': useMessages().currentTab == 'Assigned' }"
-                @click="useMessages().changeTab('Assigned')"
+                :class="{ 'is-active': messages.currentTab == 'Assigned' }"
+                @click="messages.changeTab('Assigned')"
             >
                 <a>
                     <span class="icon is-small">
@@ -31,8 +32,8 @@ import Tasks from './Tasks.vue';
                 </a>
             </li>
             <li
-                :class="{ 'is-active': useMessages().currentTab == 'Upcoming' }"
-                @click="useMessages().changeTab('Upcoming')"
+                :class="{ 'is-active': messages.currentTab == 'Upcoming' }"
+                @click="messages.changeTab('Upcoming')"
             >
                 <a>
                     <span class="icon is-small">
@@ -42,8 +43,8 @@ import Tasks from './Tasks.vue';
                 </a>
             </li>
             <li
-                :class="{ 'is-active': useMessages().currentTab == 'Completed' }"
-                @click="useMessages().changeTab('Completed')"
+                :class="{ 'is-active': messages.currentTab == 'Completed' }"
+                @click="messages.changeTab('Completed')"
             >
                 <a>
                     <span class="icon is-small">
@@ -53,8 +54,8 @@ import Tasks from './Tasks.vue';
                 </a>
             </li>
             <li
-                :class="{ 'is-active': useMessages().currentTab == 'All' }"
-                @click="useMessages().changeTab('All')"
+                :class="{ 'is-active': messages.currentTab == 'All' }"
+                @click="messages.changeTab('All')"
             >
                 <a>
                     <span class="icon is-small">
@@ -66,7 +67,7 @@ import Tasks from './Tasks.vue';
         </ul>
     </div>
     <div class="panel-block">
-        <form @submit.prevent="useMessages().addTask" style="flex-grow: 1">
+        <form @submit.prevent="messages.addTask" style="flex-grow: 1">
             <div class="columns">
                 <div class="field has-addons column is-5">
                     <div class="control has-icons-left">
@@ -74,7 +75,7 @@ import Tasks from './Tasks.vue';
                             class="input is-primary"
                             type="text"
                             placeholder="New Task"
-                            v-model="useMessages().newTask"
+                            v-model="messages.newTask"
                             maxlength="35"
                             required
                         />
@@ -94,7 +95,7 @@ import Tasks from './Tasks.vue';
                                 aria-haspopup="true"
                                 aria-controls="dropdown-menu4"
                             >
-                                <span>{{ useMessages().toBeAssigned ? findUser(useMessages().toBeAssigned).firstName : 'Worker' }}</span>
+                                <span>{{ messages.toBeAssigned ? findUser(messages.toBeAssigned).firstName : 'Worker' }}</span>
                                 <span class="icon is-small">
                                     <i class="fas fa-angle-down" aria-hidden="true"></i>
                                 </span>
@@ -105,7 +106,7 @@ import Tasks from './Tasks.vue';
                                 <a
                                     class="dropdown-item mini-avatar"
                                     v-for="user in list"
-                                    @click="useMessages().changeToBeAssigned(user.id)"
+                                    @click="messages.changeToBeAssigned(user.id)"
                                 >
                                     <figure class="image is-32x32">
                                         <img :src="user.pic" class="img is-rounded" />
@@ -117,12 +118,7 @@ import Tasks from './Tasks.vue';
                     </div>
                 </div>
                 <div class="column is-3">
-                    <input
-                        type="date"
-                        class="date-picker"
-                        required
-                        v-model="useMessages().newDueDate"
-                    />
+                    <input type="date" class="date-picker" required v-model="messages.newDueDate" />
                 </div>
             </div>
             <Tasks />
