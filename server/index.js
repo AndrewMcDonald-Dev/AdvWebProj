@@ -2,7 +2,7 @@ const express = require("express");
 const usersController = require("./controllers/users");
 
 const app = express();
-const port = 5000;
+const port = 3000;
 app.use("/", express.static(__dirname + "/public/"))
     .use(express.json())
     .get("/api", (req, res) => {
