@@ -1,0 +1,42 @@
+
+http://localhost:3004/
+
+###
+
+get http://localhost:3004/api/tasks/
+
+###
+
+get http://localhost:3004/api/tasks/626e9252b8d5d659bf5e022d
+
+###
+
+post http://localhost:3004/api/tasks
+Content-Type: application/json
+
+{
+    "title": "Make Bulma great again",
+    "isCompleted": true,
+    "assignedTo": "cool",
+    "createdBy": "kool",
+    "dueDate": 1651413610019
+}
+
+###
+
+delete http://localhost:3004/api/tasks/3
+
+###
+
+patch http://localhost:3004/api/tasks/3
+Content-Type: application/json
+
+{
+  "firstName": "Coffee",
+  "lastName": "Script"
+}
+
+
+
+###
+post http://localhost:3004/api/tasks/seed

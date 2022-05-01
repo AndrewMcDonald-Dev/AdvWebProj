@@ -1,0 +1,11 @@
+Todo list for completion of project due 5/2
+
+    - Restructure server to use tasks model ✓
+    - Connect server to database and test ✓
+    - Restructure models to confine with how they will be used in the client ✓
+    - Connect client to server
+    - Implement server calls to client
+    - Re-implement client task functionality to use server calls
+    - Restructure resgister form 
+    - Think of more models to use and add their associated features
+    - Delete server-test
