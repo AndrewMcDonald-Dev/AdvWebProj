@@ -89,6 +89,18 @@ app.get('/', requireAuth, (req, res, next) => {
             })
             .catch(next);
     })
+    .get(`/login/:token`, (req, res, next) => {
+        userModel
+            .getByToken(req.params.token)
+            .then((user) => {
+                res.status(StatusCodes.OK).send({
+                    success: true,
+                    errors: [],
+                    data: user,
+                });
+            })
+            .catch(next);
+    })
     .post('/seed', (req, res, next) => {
         userModel
             .seed()

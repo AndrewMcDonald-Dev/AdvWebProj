@@ -3,6 +3,7 @@ import { User } from '../models/user';
 import { router } from '../router/index';
 import { useMessages } from './messages';
 import { api } from './myFetch';
+import jwt from 'jsonwebtoken';
 
 export const useSession = defineStore('session', {
     state: () => ({
@@ -23,6 +24,7 @@ export const useSession = defineStore('session', {
 
                     this.user = user;
                     router.push(this.destinationUrl ?? '/wall');
+                    localStorage.setItem('user', user.token);
                 }
             } catch (error: any) {
                 messages.notifications.push({
@@ -36,6 +38,42 @@ export const useSession = defineStore('session', {
         Logout() {
             this.user = null;
             router.push('/login');
+        },
+
+        async Register(user: User) {
+            const messages = useMessages();
+
+            try {
+                const newUser = await this.api('users', user, 'POST');
+                if (newUser) {
+                    messages.notifications.push({
+                        type: 'success',
+                        message: `Welcome ${newUser.firstName}!`,
+                    });
+                    this.user = newUser;
+                    router.push(this.destinationUrl ?? '/wall');
+                    localStorage.setItem('user', newUser.token);
+                }
+            } catch (error: any) {
+                messages.notifications.push({
+                    type: 'danger',
+                    message: error.message,
+                });
+                console.table(messages.notifications);
+            }
+        },
+
+        async LoginByToken(token: string) {
+            try {
+                const user = await this.api(`users/login/${token}`);
+
+                if (user) {
+                    this.user = user;
+                    router.push(this.destinationUrl ?? '/wall');
+                }
+            } catch (error: any) {
+                console.log(error);
+            }
         },
 
         async api(

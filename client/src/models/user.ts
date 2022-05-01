@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import { api } from './myFetch';
 import { useSession } from './session';
 
 export interface User {
@@ -29,10 +30,12 @@ export const useUsers = defineStore('users', {
         },
     },
     getters: {
-        findUser: (state) => (id: string) => {
-            const user = state.list.find((user) => user._id === id);
-            if (!user) throw new Error('failed to find user in findUser');
-            return user;
-        },
+        findUser:
+            (state) =>
+            (id: string): User => {
+                const user = state.list.find(({ _id }) => _id === id);
+                if (!user) throw new Error('failed to find user in findUser');
+                return user;
+            },
     },
 });

@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import session, { Logout } from '../models/session';
+import {useSession} from '../models/session';
+const {Logout, user} = useSession();
+
+
 
 </script>
 
 <template>
-    <div class="buttons" v-if="!session.user">
+    <div class="buttons" v-if="!user">
         <router-link class="button is-light" to="/login">Log in</router-link>
         <router-link class="button is-primary" to="/signup">
             <strong>Sign up</strong>
@@ -14,12 +17,12 @@ import session, { Logout } from '../models/session';
         <div class="avatar">
             <div class="avatar-image">
                 <figure class="image is-64x64">
-                    <img :src="session.user.pic" class="img is-rounded" />
+                    <img :src="user.pic" class="img is-rounded" />
                 </figure>
             </div>
             <div class="login-tag">
-                <strong>{{ session.user.firstName }} {{ session.user.lastName }}</strong>
-                <i>{{ session.user.email }}</i>
+                <strong>{{ user.firstName }} {{ user.lastName }}</strong>
+                <i>{{ user.email }}</i>
             </div>
         </div>
         <a class="button is-primary" @click="Logout">

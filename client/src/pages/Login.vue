@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { Login } from "../models/session"
+import { useSession } from "../models/session"
 
+const {Login} = useSession();
 
 const handle = ref('')
 const password = ref('')

@@ -8,4 +8,4 @@ Todo list for completion of project due 5/2
     - Re-implement client task functionality to use server calls
     - Restructure resgister form 
     - Think of more models to use and add their associated features
-    - Delete server-test
+    - Delete server-test ✓

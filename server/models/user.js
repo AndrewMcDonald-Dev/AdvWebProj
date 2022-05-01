@@ -64,8 +64,8 @@ const update = async (id, user) => {
     return { ...user, password: undefined };
 };
 
-const login = async (email, password) => {
-    const user = await collection.findOne({ email });
+const login = async (handle, password) => {
+    const user = await collection.findOne({ handle });
     if (!user)
         throw { stausCode: StatusCodes.NOT_FOUND, message: 'User not found' };
 
@@ -80,6 +80,14 @@ const login = async (email, password) => {
     const token = jwt.sign(data, process.env.JWT_SECRET);
 
     return { ...data, token };
+};
+
+const getByToken = async (token) => {
+    const data = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await collection.findOne({ _id: new ObjectId(data._id) });
+    if (!user)
+        throw { stausCode: StatusCodes.NOT_FOUND, message: 'User not found' };
+    return { ...user, password: undefined, token };
 };
 
 const fromToken = async (token) =>
@@ -123,6 +131,7 @@ module.exports = {
     remove,
     update,
     login,
+    getByToken,
     collection,
     getByHandle,
     seed,

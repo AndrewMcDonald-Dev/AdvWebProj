@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import { useSession } from '../models/session';
+import jwt from 'jsonwebtoken';
 import Generic from '../pages/Generic.vue';
 import Home from '../pages/Home.vue';
 import Login from '../pages/Login.vue';
@@ -30,8 +31,15 @@ export const router = createRouter({
     linkActiveClass: 'is-active',
 });
 
-router.beforeEach((to, from) => {
+router.beforeEach(async (to, from) => {
     const session = useSession();
+
+    if (!session.user) {
+        const userToken = localStorage.getItem('user');
+        if (userToken) {
+            await session.LoginByToken(userToken);
+        }
+    }
     if (session.destinationUrl == null && to.path != '/login')
         session.destinationUrl = to.path;
 

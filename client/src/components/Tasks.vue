@@ -1,25 +1,33 @@
 <script setup lang="ts">
-import { useMessages } from '../models/messages';
-import { findUser } from '../models/user';
+import {  useTasks } from '../models/tasks';
+import { useUsers } from '../models/user';
 import { retrieveDate } from '../utils/retrieveDate';
 
-const messages = useMessages()
+console.log('test1');
+
+const {findUser} = useUsers();
+console.log('test');
+
+
+const tasks = useTasks()
+console.log(tasks.tasks);
+
 </script>
 
 <template>
     <a
         class="panel-block"
-        v-for="task in messages.displayedTasks"
-        :key="task.title"
-        :class="{ 'is-completed': messages.currentTab != 'Completed' && task.isCompleted }"
+        v-for="task in tasks.displayedTasks"
+        :key="task._id"
+        :class="{ 'is-completed': tasks.currentTab != 'Completed' && task.isCompleted }"
     >
         <input type="checkbox" v-model="task.isCompleted" />
         <div class="task-text">{{ task.title }}</div>
         <div class="mini-avatar">
             <figure class="image is-32x32">
-                <img :src="findUser(task.assignedTo).pic" class="img is-rounded" />
+                <img :src="findUser(task.assignedTo._id).pic" class="img is-rounded" />
             </figure>
-            <p>{{ findUser(task.assignedTo).firstName }}</p>
+            <p>{{ findUser(task.assignedTo._id).firstName }}</p>
         </div>
         <div class="date">
             <h4>Due Date:</h4>
