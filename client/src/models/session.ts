@@ -1,24 +1,67 @@
-import { reactive } from "vue";
-import { router } from "../router/index";
-import { list, User } from "./user";
+import { defineStore } from 'pinia';
+import { User } from '../models/user';
+import { router } from '../router/index';
+import { useMessages } from './messages';
+import { api } from './myFetch';
 
-const session = reactive({
-    user: null as User | null,
+export const useSession = defineStore('session', {
+    state: () => ({
+        user: null as User | null,
+        destinationUrl: null as string | null,
+    }),
+    actions: {
+        async Login(email: string, password: string) {
+            const messages = useMessages();
+
+            try {
+                const user = await this.api('users/login', { email, password });
+                if (user) {
+                    messages.notifications.push({
+                        type: 'success',
+                        message: `Welcome back ${user.firstName}!`,
+                    });
+
+                    this.user = user;
+                    router.push(this.destinationUrl ?? '/wall');
+                }
+            } catch (error: any) {
+                messages.notifications.push({
+                    type: 'danger',
+                    message: error.message,
+                });
+                console.table(messages.notifications);
+            }
+        },
+
+        Logout() {
+            this.user = null;
+            router.push('/login');
+        },
+
+        async api(
+            url: string,
+            body?: any,
+            method?: 'GET' | 'POST' | 'PUT' | 'DELETE',
+            headers: any = {}
+        ) {
+            const messages = useMessages();
+
+            if (this.user?.token)
+                headers.Authorization = `Bearer ${this.user.token}`;
+
+            try {
+                const response = await api(url, body, method, headers);
+
+                if (response.errors?.length)
+                    throw { message: response.errors.join('') };
+
+                return await response.data;
+            } catch (error: any) {
+                messages.notifications.push({
+                    type: 'danger',
+                    message: error.message,
+                });
+            }
+        },
+    },
 });
-
-export const Login = async (handle: string, password: string) => {
-    const user = list.find((u: User) => u.handle === handle);
-
-    if (!user) throw new Error("User not found");
-    if (user.password !== password) throw new Error("Incorrect Password");
-
-    session.user = user;
-    router.push("/wall");
-};
-
-export const Logout = () => {
-    session.user = null;
-    router.push("/");
-};
-
-export default session;
