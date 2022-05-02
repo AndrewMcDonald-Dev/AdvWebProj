@@ -40,8 +40,23 @@ export const useSession = defineStore('session', {
             localStorage.removeItem('user');
         },
 
-        async Register(user: User) {
+        async Register(
+            firstName: string,
+            lastName: string,
+            handle: string,
+            email: string,
+            password: string,
+            pic: string
+        ) {
             const messages = useMessages();
+            const user = {
+                firstName,
+                lastName,
+                handle,
+                email,
+                password,
+                pic,
+            };
 
             try {
                 const newUser = await this.api('users', user, 'POST');

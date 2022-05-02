@@ -1,30 +1,38 @@
 <script setup lang="ts">
+import { ref } from "vue";
+import { useSession } from "../models/session";
+const { Register } = useSession();
+
+
+const handle = ref('')
+const password = ref('')
+const email = ref('')
+const firstName = ref('')
+const lastName = ref('')
+const pic = ref('')
+
 </script>
 
 <template>
-    <div class="sec">
+    <div class="section">
         <div class="wrap">
-            <form class="register-form form">
+            <form class="register-form form" @submit.prevent="Register(firstName, lastName, handle, email, password, pic)">
                 <div class="form-header">
                     <h3>Register</h3>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-input" placeholder="First Name" required />
-                    <input type="text" class="form-input ml" placeholder="Last Name" required />
+                    <input type="text" class="form-input" placeholder="First Name" v-model="firstName" required />
+                    <input type="text" class="form-input ml" placeholder="Last Name" v-model="lastName" required />
                 </div>
                 <div class="form-group">
-                    <input type="email" class="form-input" placeholder="Email" required />
+                    <input type="email" class="form-input" placeholder="Email" v-model="email"  required />
                 </div>
                 <div class="form-group">
-                    <span class="form-label">How did you find us?</span>
-                    <span class="form-label">Date of Birth</span>
+                    <input type="text" class="form-input" placeholder="Handle" v-model="handle" required />
+                    <input type="text" class="form-input ml" placeholder="Pic" v-model="pic" required />
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-input" placeholder="Social Media" required />
-                    <input type="date" class="form-input ml" required />
-                </div>
-                <div class="form-group">
-                    <input type="password" class="form-input" placeholder="New Password" required />
+                    <input type="password" class="form-input" placeholder="New Password" v-model="password"  required />
                     <input
                         type="password"
                         class="form-input ml"
