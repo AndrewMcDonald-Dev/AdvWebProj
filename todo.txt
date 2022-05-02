@@ -7,6 +7,6 @@ Todo list for completion of project due 5/2
     - Implement server calls to client ✓
     - Re-implement client task functionality to use server calls ✓
     - Delete server-test ✓
+    - Add delete and save for tasks ✓
     - Fix loginbadge and use notifications
-    - Add delete and save for tasks
     - Restructure resgister form and hook up

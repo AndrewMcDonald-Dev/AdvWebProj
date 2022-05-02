@@ -99,7 +99,7 @@ await users.fetchUsers()
                     <input type="date" class="date-picker" required v-model="tasks.newDueDate" />
                 </div>
             </div>
-            <Tasks :tasks='tasks.displayedTasks' :currentTab="tasks.currentTab" :findUser="users.findUser" />
+            <Tasks :tasks='tasks.displayedTasks' :currentTab="tasks.currentTab" :findUser="users.findUser" :deleteTask="tasks.deleteTask" :saveTask="tasks.saveTask" />
         </form>
     </div>
 </template>
