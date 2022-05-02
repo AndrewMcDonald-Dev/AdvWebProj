@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import { router } from '../router';
 import { convertDate } from '../utils/convertDate';
 import { api } from './myFetch';
 import { useSession } from './session';
@@ -73,8 +74,7 @@ export const useTasks = defineStore('tasks', {
     },
     getters: {
         displayedTasks: ({ tasks, currentTab, session }): Task[] => {
-            if (!session.user)
-                throw new Error('No user detected in displayedTasks()');
+            if (!session.user) router.push('/login');
             switch (currentTab) {
                 case 'Created':
                     return tasks.filter(

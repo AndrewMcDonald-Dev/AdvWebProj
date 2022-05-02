@@ -1,31 +1,34 @@
 <script setup lang="ts">
 import { useSession } from '../models/session';
-const { Logout, user } = useSession();
+import Notfications from './Notfications.vue';
+const session = useSession();
 
 
 
 </script>
 
 <template>
-    <div class="buttons" v-if="!user">
+    <div class="buttons" v-if="!session.user"  >
         <router-link class="button is-light" to="/login">Log in</router-link>
         <router-link class="button is-primary" to="/signup">
             <strong>Sign up</strong>
         </router-link>
+        <Notfications/>
     </div>
     <div class="buttons" v-else>
         <div class="avatar">
             <div class="avatar-image">
                 <figure class="image is-64x64">
-                    <img :src="user.pic" class="img is-rounded" />
+                    <img :src="session.user.pic" class="img is-rounded" />
                 </figure>
             </div>
             <div class="login-tag">
-                <strong>{{ user.firstName }} {{ user.lastName }}</strong>
-                <i>{{ user.email }}</i>
+                <strong>{{ session.user.firstName }} {{ session.user.lastName }}</strong>
+                <i>{{ session.user.email }}</i>
             </div>
         </div>
-        <a class="button is-primary" @click="Logout">
+        <Notfications/>
+        <a class="button is-primary" @click="session.Logout">
             <strong>Log Out</strong>
         </a>
     </div>

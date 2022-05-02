@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import LoginBadge from './LoginBadge.vue';
-
+import Notfications from './Notfications.vue';
 
 const isOpen = ref(false)
 </script>
@@ -43,7 +43,7 @@ const isOpen = ref(false)
                 </div>
                 <div class="navbar-end">
                     <div class="navbar-item">
-                        <LoginBadge></LoginBadge>
+                        <LoginBadge/>
                     </div>
                 </div>
             </div>
