@@ -1,23 +1,64 @@
-http://localhost:5000/
+http://localhost:3004/
 
 ###
 
-get http://localhost:5000/api/users/
+get http://localhost:3004/api/users/
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJKYXZhIiwibGFzdE5hbWUiOiJTY3JpcHQiLCJlbWFpbCI6InNhbXBsZUBlbWFpbC5jb20iLCJoYW5kbGUiOiJhd2Vzb21lIiwicGljIjoic29tZXVybCIsImlkIjo1LCJpYXQiOjE2NDkzNDY4ODB9.X1M8aWjzbPkuwwhf7_gYunIAF6tH6flfVRevOfkVHbE
 
 ###
 
-get http://localhost:5000/api/users/3
+get http://localhost:3004/api/users/626e8956c1ba2c57e237a7dc
 
 ###
 
-post http://localhost:5000/api/users
+get http://localhost:3004/api/users/login/626e8956c1ba2c57e237a7dc
+
+###
+
+get http://localhost:3004/api/users/handle/kool
+
+###
+
+post http://localhost:3004/api/users
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJKYXZhIiwibGFzdE5hbWUiOiJTY3JpcHQiLCJlbWFpbCI6InNhbXBsZUBlbWFpbC5jb20iLCJoYW5kbGUiOiJhd2Vzb21lIiwicGljIjoic29tZXVybCIsImlkIjo1LCJpYXQiOjE2NDkzNDY4ODB9.X1M8aWjzbPkuwwhf7_gYunIAF6tH6flfVRevOfkVHbE
 
 {
   "firstName": "Java",
   "lastName": "Script",
-  "email": "is@email.com",
+  "email": "sample@email.com",
   "handle": "awesome",
   "password": "qwerty",
   "pic": "someurl"
 }
+
+###
+
+delete http://localhost:3004/api/users/626e8956c1ba2c57e237a7dd
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJKYXZhIiwibGFzdE5hbWUiOiJTY3JpcHQiLCJlbWFpbCI6InNhbXBsZUBlbWFpbC5jb20iLCJoYW5kbGUiOiJhd2Vzb21lIiwicGljIjoic29tZXVybCIsImlkIjo1LCJpYXQiOjE2NDkzNDY4ODB9.X1M8aWjzbPkuwwhf7_gYunIAF6tH6flfVRevOfkVHbE
+
+###
+
+patch http://localhost:3004/api/users/626e8b53d726df30cb804f71
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJKYXZhIiwibGFzdE5hbWUiOiJTY3JpcHQiLCJlbWFpbCI6InNhbXBsZUBlbWFpbC5jb20iLCJoYW5kbGUiOiJhd2Vzb21lIiwicGljIjoic29tZXVybCIsImlkIjo1LCJpYXQiOjE2NDkzNDY4ODB9.X1M8aWjzbPkuwwhf7_gYunIAF6tH6flfVRevOfkVHbE
+
+{
+  "firstName": "Coffee",
+  "lastName": "Script"
+}
+
+###
+post http://localhost:3004/api/users/login
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJKYXZhIiwibGFzdE5hbWUiOiJTY3JpcHQiLCJlbWFpbCI6InNhbXBsZUBlbWFpbC5jb20iLCJoYW5kbGUiOiJhd2Vzb21lIiwicGljIjoic29tZXVybCIsImlkIjo1LCJpYXQiOjE2NDkzNDY4ODB9.X1M8aWjzbPkuwwhf7_gYunIAF6tH6flfVRevOfkVHbE
+
+{
+  "email": "sample@email.com",
+  "password": "qwerty"
+}
+
+
+###
+post http://localhost:3004/api/users/seed
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJKYXZhIiwibGFzdE5hbWUiOiJTY3JpcHQiLCJlbWFpbCI6InNhbXBsZUBlbWFpbC5jb20iLCJoYW5kbGUiOiJhd2Vzb21lIiwicGljIjoic29tZXVybCIsImlkIjo1LCJpYXQiOjE2NDkzNDY4ODB9.X1M8aWjzbPkuwwhf7_gYunIAF6tH6flfVRevOfkVHbE
