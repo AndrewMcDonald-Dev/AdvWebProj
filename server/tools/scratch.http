@@ -15,7 +15,7 @@ get http://localhost:3004/api/users/login/6266ea5ee764cf64a6f001f6
 
 ###
 
-get http://localhost:3004/api/users/handle/kool
+get http://localhost:3004/api/users/handle/cool
 
 ###
 
