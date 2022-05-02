@@ -9,15 +9,13 @@ const tasks = useTasks()
 await tasks.fetchTasks()
 
 
+
 </script>
 
 <template>
     <div class="tabs is-boxed">
         <ul>
-            <li
-                :class="{ 'is-active': tasks.currentTab == 'Created' }"
-                @click="tasks.changeTab('Created')"
-            >
+            <li :class="{ 'is-active': tasks.currentTab == 'Created' }" @click="tasks.changeTab('Created')">
                 <a>
                     <span class="icon is-small">
                         <i class="fas fa-clipboard-list"></i>
@@ -25,10 +23,7 @@ await tasks.fetchTasks()
                     <span>Created</span>
                 </a>
             </li>
-            <li
-                :class="{ 'is-active': tasks.currentTab == 'Assigned' }"
-                @click="tasks.changeTab('Assigned')"
-            >
+            <li :class="{ 'is-active': tasks.currentTab == 'Assigned' }" @click="tasks.changeTab('Assigned')">
                 <a>
                     <span class="icon is-small">
                         <i class="fas fa-calendar-times"></i>
@@ -36,10 +31,7 @@ await tasks.fetchTasks()
                     <span>Assigned</span>
                 </a>
             </li>
-            <li
-                :class="{ 'is-active': tasks.currentTab == 'Upcoming' }"
-                @click="tasks.changeTab('Upcoming')"
-            >
+            <li :class="{ 'is-active': tasks.currentTab == 'Upcoming' }" @click="tasks.changeTab('Upcoming')">
                 <a>
                     <span class="icon is-small">
                         <i class="fa-solid fa-calendar-days"></i>
@@ -47,10 +39,7 @@ await tasks.fetchTasks()
                     <span>Upcoming</span>
                 </a>
             </li>
-            <li
-                :class="{ 'is-active': tasks.currentTab == 'Completed' }"
-                @click="tasks.changeTab('Completed')"
-            >
+            <li :class="{ 'is-active': tasks.currentTab == 'Completed' }" @click="tasks.changeTab('Completed')">
                 <a>
                     <span class="icon is-small">
                         <i class="fa-solid fa-calendar-check"></i>
@@ -58,10 +47,7 @@ await tasks.fetchTasks()
                     <span>Completed</span>
                 </a>
             </li>
-            <li
-                :class="{ 'is-active': tasks.currentTab == 'All' }"
-                @click="tasks.changeTab('All')"
-            >
+            <li :class="{ 'is-active': tasks.currentTab == 'All' }" @click="tasks.changeTab('All')">
                 <a>
                     <span class="icon is-small">
                         <i class="fas fa-calendar"></i>
@@ -76,14 +62,8 @@ await tasks.fetchTasks()
             <div class="columns">
                 <div class="field has-addons column is-5">
                     <div class="control has-icons-left">
-                        <input
-                            class="input is-primary"
-                            type="text"
-                            placeholder="New Task"
-                            v-model="tasks.newTask"
-                            maxlength="35"
-                            required
-                        />
+                        <input class="input is-primary" type="text" placeholder="New Task" v-model="tasks.newTask"
+                            maxlength="35" required />
                         <span class="icon is-left">
                             <i class="fas fa-calendar-plus" aria-hidden="true"></i>
                         </span>
@@ -95,12 +75,9 @@ await tasks.fetchTasks()
                 <div class="column is-2">
                     <div class="dropdown is-hoverable">
                         <div class="dropdown-trigger">
-                            <button
-                                class="button"
-                                aria-haspopup="true"
-                                aria-controls="dropdown-menu4"
-                            >
-                                <span>{{ tasks.toBeAssigned ? users.findUser(tasks.toBeAssigned).firstName : 'Worker' }}</span>
+                            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu4">
+                                <span>{{ tasks.toBeAssigned ? users.findUser(tasks.toBeAssigned).firstName : 'Worker'
+                                }}</span>
                                 <span class="icon is-small">
                                     <i class="fas fa-angle-down" aria-hidden="true"></i>
                                 </span>
@@ -108,11 +85,8 @@ await tasks.fetchTasks()
                         </div>
                         <div class="dropdown-menu" id="dropdown-menu4" role="menu">
                             <div class="dropdown-content">
-                                <a
-                                    class="dropdown-item mini-avatar"
-                                    v-for="user in users.list"
-                                    @click="tasks.changeToBeAssigned(user._id)"
-                                >
+                                <a class="dropdown-item mini-avatar" v-for="user in users.list"
+                                    @click="tasks.changeToBeAssigned(user._id)">
                                     <figure class="image is-32x32">
                                         <img :src="user.pic" class="img is-rounded" />
                                     </figure>
@@ -126,7 +100,7 @@ await tasks.fetchTasks()
                     <input type="date" class="date-picker" required v-model="tasks.newDueDate" />
                 </div>
             </div>
-            <Tasks />
+            <Tasks :tasks='tasks.displayedTasks' :currentTab="tasks.currentTab" :findUser="users.findUser" />
         </form>
     </div>
 </template>
@@ -139,6 +113,7 @@ await tasks.fetchTasks()
     border: 1px solid #ecf0f1;
     background: #ecf0f1;
     padding: 0.35em;
+
     &::-webkit-clear-button {
         display: none;
     }

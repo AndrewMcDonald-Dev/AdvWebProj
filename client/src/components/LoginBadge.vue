@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {useSession} from '../models/session';
-const {Logout, user} = useSession();
+import { useSession } from '../models/session';
+const { Logout, user } = useSession();
 
 
 

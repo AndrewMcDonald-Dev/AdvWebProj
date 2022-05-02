@@ -1,26 +1,23 @@
 <script setup lang="ts">
-import {  useTasks } from '../models/tasks';
-import { useUsers } from '../models/user';
+import { User } from '../models/user';
 import { retrieveDate } from '../utils/retrieveDate';
-
-console.log('test1');
-
-const {findUser} = useUsers();
-console.log('test');
+import { Task } from '../models/tasks';
 
 
-const tasks = useTasks()
-console.log(tasks.tasks);
+const props = defineProps<{
+    tasks: Task[],
+    currentTab: string,
+    findUser: (id: string) => User
+}>()
+
+
+
 
 </script>
 
 <template>
-    <a
-        class="panel-block"
-        v-for="task in tasks.displayedTasks"
-        :key="task._id"
-        :class="{ 'is-completed': tasks.currentTab != 'Completed' && task.isCompleted }"
-    >
+    <a class="panel-block" v-for="task in tasks" :key="task._id"
+        :class="{ 'is-completed': currentTab != 'Completed' && task.isCompleted }">
         <input type="checkbox" v-model="task.isCompleted" />
         <div class="task-text">{{ task.title }}</div>
         <div class="mini-avatar">
@@ -40,6 +37,7 @@ console.log(tasks.tasks);
 .task-text {
     width: 20em;
 }
+
 .date {
     margin-left: auto;
     margin-right: 5em;

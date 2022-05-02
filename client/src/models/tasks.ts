@@ -1,10 +1,10 @@
-import { defineStore } from 'pinia';
-import { convertDate } from '../utils/convertDate';
-import { api } from './myFetch';
-import { useSession } from './session';
-import { User } from './user';
+import { defineStore } from "pinia";
+import { convertDate } from "../utils/convertDate";
+import { api } from "./myFetch";
+import { useSession } from "./session";
+import { User } from "./user";
 
-export type task = {
+export type Task = {
     _id: string;
     title: string;
     isCompleted: boolean;
@@ -14,14 +14,14 @@ export type task = {
     timeCreated: Date;
 };
 
-export const useTasks = defineStore('message', {
+export const useTasks = defineStore("message", {
     state: () => ({
-        tasks: [] as task[],
+        tasks: [] as Task[],
         session: useSession(),
-        currentTab: 'All',
-        newTask: '',
-        toBeAssigned: '',
-        newDueDate: '',
+        currentTab: "All",
+        newTask: "",
+        toBeAssigned: "",
+        newDueDate: "",
     }),
     actions: {
         changeTab(tab: string) {
@@ -29,7 +29,7 @@ export const useTasks = defineStore('message', {
         },
         async addTask() {
             if (!this.session.user)
-                throw new Error('Current user not stored in addTask().');
+                throw new Error("Current user not stored in addTask().");
 
             if (this.newTask && this.toBeAssigned && this.newDueDate) {
                 let newTask = {
@@ -42,41 +42,41 @@ export const useTasks = defineStore('message', {
                     dueDate: convertDate(this.newDueDate),
                     timeCreated: new Date(),
                 };
-                newTask = (await this.session.api('tasks', newTask, 'POST'))
-                    .data as task;
-                this.tasks.unshift(newTask as task);
-                this.newTask = '';
-                this.toBeAssigned = '';
-                this.newDueDate = '';
+                newTask = (await this.session.api("tasks", newTask, "POST"))
+                    .data as Task;
+                this.tasks.unshift(newTask as Task);
+                this.newTask = "";
+                this.toBeAssigned = "";
+                this.newDueDate = "";
             }
         },
         changeToBeAssigned(handle: string) {
             this.toBeAssigned = handle;
         },
         async fetchTasks() {
-            this.tasks = (await api('tasks')).data as task[];
+            this.tasks = (await api("tasks")).data as Task[];
         },
     },
     getters: {
-        displayedTasks: ({ tasks, currentTab, session }): task[] => {
+        displayedTasks: ({ tasks, currentTab, session }): Task[] => {
             if (!session.user)
-                throw new Error('No user detected in displayedTasks()');
+                throw new Error("No user detected in displayedTasks()");
             switch (currentTab) {
-                case 'Created':
+                case "Created":
                     return tasks.filter(
                         ({ createdBy }) => createdBy._id === session.user?._id
                     );
-                case 'Assigned':
+                case "Assigned":
                     return tasks.filter(
                         ({ assignedTo }) => assignedTo._id === session.user?._id
                     );
-                case 'Upcoming':
+                case "Upcoming":
                     return tasks.sort(
                         (task1, task2) => task1.dueDate - task2.dueDate
                     );
-                case 'Completed':
+                case "Completed":
                     return tasks.filter(({ isCompleted }) => isCompleted);
-                case 'All':
+                case "All":
                     return tasks.sort(
                         (task1, task2) =>
                             new Date(task2.timeCreated).getTime() -
