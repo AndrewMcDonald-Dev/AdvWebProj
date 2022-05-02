@@ -14,7 +14,7 @@ export type Task = {
     timeCreated: Date;
 };
 
-export const useTasks = defineStore("message", {
+export const useTasks = defineStore("tasks", {
     state: () => ({
         tasks: [] as Task[],
         session: useSession(),
@@ -32,22 +32,24 @@ export const useTasks = defineStore("message", {
                 throw new Error("Current user not stored in addTask().");
 
             if (this.newTask && this.toBeAssigned && this.newDueDate) {
-                let newTask = {
+                const newTask = {
                     title: this.newTask,
                     isCompleted: false,
-                    assignedTo: (await api(
-                        `users${this.toBeAssigned}`
+                    assignedTo: (await this.session.api(
+                        `users/${this.toBeAssigned}`
                     )) as unknown as User,
-                    createdBy: this.session.user,
+                    createdBy: this.session.user as User,
                     dueDate: convertDate(this.newDueDate),
-                    timeCreated: new Date(),
                 };
-                newTask = (await this.session.api("tasks", newTask, "POST"))
+
+                const task = (await this.session.api("tasks", newTask, "POST"))
                     .data as Task;
-                this.tasks.unshift(newTask as Task);
+
                 this.newTask = "";
                 this.toBeAssigned = "";
                 this.newDueDate = "";
+
+                await this.fetchTasks();
             }
         },
         changeToBeAssigned(handle: string) {

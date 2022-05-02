@@ -1,11 +1,11 @@
-const express = require('express');
+const express = require("express");
 const app = express.Router();
 
-const { requireAuth } = require('../models/auth');
-const userModel = require('../models/user');
-const { StatusCodes } = require('http-status-codes');
+const { requireAuth } = require("../models/auth");
+const userModel = require("../models/user");
+const { StatusCodes } = require("http-status-codes");
 
-app.get('/', requireAuth, (req, res, next) => {
+app.get("/", requireAuth, (req, res, next) => {
     userModel
         .getList()
         .then((users) => {
@@ -17,9 +17,9 @@ app.get('/', requireAuth, (req, res, next) => {
         })
         .catch(next);
 })
-    .get('/handle/:handle', (req, res, next) => {
+    .get("/handle/:handle", (req, res, next) => {
         userModel
-            .getByHandle(req.user.handle)
+            .getByHandle(req.params.handle)
             .then((user) => {
                 res.status(StatusCodes.OK).send({
                     success: true,
@@ -29,7 +29,7 @@ app.get('/', requireAuth, (req, res, next) => {
             })
             .catch(next);
     })
-    .get('/:id', (req, res, next) => {
+    .get("/:id", (req, res, next) => {
         userModel
             .get(req.params.id)
             .then((user) => {
@@ -41,7 +41,7 @@ app.get('/', requireAuth, (req, res, next) => {
             })
             .catch(next);
     })
-    .post('/', (req, res, next) => {
+    .post("/", (req, res, next) => {
         userModel
             .create(req.body)
             .then((user) => {
@@ -53,7 +53,7 @@ app.get('/', requireAuth, (req, res, next) => {
             })
             .catch(next);
     })
-    .delete('/:id', requireAuth, (req, res, next) => {
+    .delete("/:id", requireAuth, (req, res, next) => {
         userModel
             .remove(req.params.id)
             .then((user) => {
@@ -65,7 +65,7 @@ app.get('/', requireAuth, (req, res, next) => {
             })
             .catch(next);
     })
-    .patch('/:id', (req, res, next) => {
+    .patch("/:id", (req, res, next) => {
         userModel
             .update(req.params.id, req.body)
             .then((user) => {
@@ -77,7 +77,7 @@ app.get('/', requireAuth, (req, res, next) => {
             })
             .catch(next);
     })
-    .post('/login', (req, res, next) => {
+    .post("/login", (req, res, next) => {
         userModel
             .login(req.body.email, req.body.password)
             .then((user) => {
@@ -101,7 +101,7 @@ app.get('/', requireAuth, (req, res, next) => {
             })
             .catch(next);
     })
-    .post('/seed', (req, res, next) => {
+    .post("/seed", (req, res, next) => {
         userModel
             .seed()
             .then((user) => {

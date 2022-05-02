@@ -4,10 +4,9 @@ import { useUsers } from '../models/user';
 import Tasks from './Tasks.vue';
 
 const users = useUsers();
-await users.fetchUsers()
 const tasks = useTasks()
 await tasks.fetchTasks()
-
+await users.fetchUsers()
 
 
 </script>

@@ -15,7 +15,14 @@ const changeAsideTab = (tab: string) => {
             <div class="columns">
                 <div class="column is-7">
                     <article class="panel">
-                        <!-- <Messages /> -->
+                        <Suspense>
+                            <template #default>
+                                <Messages />
+                            </template>
+                            <template #fallback>
+                                <div>Loading</div>
+                            </template>
+                        </Suspense>
                     </article>
                 </div>
                 <div class="column is-4">
