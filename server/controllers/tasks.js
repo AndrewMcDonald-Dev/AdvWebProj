@@ -36,7 +36,7 @@ app.get('/', (req, res, next) => {
     .delete('/:id', (req, res, next) => {
         taskModel
             .remove(req.params.id)
-            .then(() =>
+            .then((task) =>
                 res
                     .status(StatusCodes.OK)
                     .send({ success: true, errors: [], data: task })
