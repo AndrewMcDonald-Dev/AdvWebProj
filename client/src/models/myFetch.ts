@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3004/api/';
+const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3004/api/";
 
 export const api = (
     url: string,
@@ -7,19 +7,19 @@ export const api = (
     headers?: HeadersInit
 ) => {
     let options: RequestInit = {
-        method: method || 'GET',
+        method: method || "GET",
         headers,
     };
 
     if (body) {
         options = {
-            method: method || 'POST',
+            method: method || "POST",
             headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
+                "Content-Type": "application/json",
+                Accept: "application/json",
                 ...options.headers,
             },
-            cache: 'no-cache',
+            cache: "no-cache",
             body: JSON.stringify(body),
         };
     }
