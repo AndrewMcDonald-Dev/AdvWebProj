@@ -29,6 +29,18 @@ app.get("/", requireAuth, (req, res, next) => {
             })
             .catch(next);
     })
+    .get("/search/:search", (req, res, next) => {
+        userModel
+            .searchUsers(req.params.search)
+            .then((user) => {
+                res.status(StatusCodes.OK).send({
+                    success: true,
+                    errors: [],
+                    data: user,
+                });
+            })
+            .catch(next);
+    })
     .get("/:id", (req, res, next) => {
         userModel
             .get(req.params.id)

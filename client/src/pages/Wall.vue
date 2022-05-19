@@ -13,7 +13,7 @@ const changeAsideTab = (tab: string) => {
     <div class="section">
         <div class="container">
             <div class="columns">
-                <div class="column is-7">
+                <div class="column is-8">
                     <article class="panel">
                         <Suspense>
                             <template #default>

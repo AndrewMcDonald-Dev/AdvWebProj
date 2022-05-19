@@ -1,13 +1,34 @@
 <script setup lang="ts">
+import { onMounted, Ref, ref } from 'vue';
+import { api } from '../models/myFetch';
 import { useTasks } from '../models/tasks';
-import { useUsers } from '../models/user';
+import { User, useUsers } from '../models/user';
 import Tasks from './Tasks.vue';
 
 const users = useUsers();
 const tasks = useTasks()
-await tasks.fetchTasks()
-await users.fetchUsers()
 
+onMounted(async () => {
+    await tasks.fetchTasks()
+    await tasks.tasks.forEach(async (task) => {
+        await users.fetchUser(task.createdBy._id)
+        await users.fetchUser(task.assignedTo._id)
+    })
+
+})
+
+const name = ref('')
+
+
+// If i could find a way to @input on the o-autocomplete I would have been able to finish this with an hour to spare
+// I know i need to run teh function below to set some variable but idk how to trigger this function
+const filteredDataObj = async (): Promise<User[] | null> => {
+    const users = (await api(`users/search/${name.value}`)).data
+    console.log(users);
+
+    if (users) return users
+    return null
+}
 
 </script>
 
@@ -71,8 +92,8 @@ await users.fetchUsers()
                         <button class="button is-primary">Add</button>
                     </div>
                 </div>
-                <div class="column is-2">
-                    <div class="dropdown is-hoverable">
+                <div class="column is-3">
+                    <!-- <div class="dropdown is-hoverable">
                         <div class="dropdown-trigger">
                             <button class="button" aria-haspopup="true" aria-controls="dropdown-menu4">
                                 <span>{{ tasks.toBeAssigned ? users.findUser(tasks.toBeAssigned).firstName : 'Worker'
@@ -93,13 +114,28 @@ await users.fetchUsers()
                                 </a>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
+
+
+
+                    <!-- <o-field>
+                        <o-autocomplete rounded expanded v-model="name" :data="filteredDataArray" placeholder="Worker"
+                            icon="search" clearable @select="(option: any) => tasks.toBeAssigned = option">
+                            <template slot="empty">No results found</template>
+                        </o-autocomplete>
+                    </o-field> -->
+                    <o-field>
+                        <o-autocomplete v-model="name" placeholder="e.g. Anne" :data="filteredDataObj"
+                            field='user.firstName' @select="(option: any) => tasks.toBeAssigned = option">
+                        </o-autocomplete>
+                    </o-field>
                 </div>
                 <div class="column is-3">
                     <input type="date" class="date-picker" required v-model="tasks.newDueDate" />
                 </div>
             </div>
-            <Tasks :tasks='tasks.displayedTasks' :currentTab="tasks.currentTab" :findUser="users.findUser" :deleteTask="tasks.deleteTask" :saveTask="tasks.saveTask" />
+            <Tasks :tasks='tasks.displayedTasks' :currentTab="tasks.currentTab" :findUser="users.findUser"
+                :deleteTask="tasks.deleteTask" :saveTask="tasks.saveTask" />
         </form>
     </div>
 </template>

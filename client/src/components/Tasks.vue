@@ -13,8 +13,6 @@ const props = defineProps<{
 }>()
 
 
-
-
 </script>
 
 <template>
@@ -27,17 +25,17 @@ const props = defineProps<{
             <div class="mini-avatar">
                 <figure class="image is-32x32">
                     <img :src="findUser(task.assignedTo._id).pic" class="img is-rounded" />
-            </figure>
-            <p>{{ findUser(task.assignedTo._id).firstName }}</p>
-        </div>
-        <div class="date">
-            <h4>Due Date:</h4>
-            {{ retrieveDate(task.dueDate) }}
-        </div>
-        <div class="delete-button">
-            <button class="delete is-large" @click="deleteTask(index)"></button>
-        </div>
+                </figure>
+                <p>{{ findUser(task.assignedTo._id).firstName }}</p>
             </div>
+            <div class="date">
+                <h4>Due Date:</h4>
+                {{ retrieveDate(task.dueDate) }}
+            </div>
+            <div class="delete-button">
+                <button class="delete is-large" @click="deleteTask(index)"></button>
+            </div>
+        </div>
     </a>
 </template>
 
